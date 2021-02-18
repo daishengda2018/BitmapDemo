@@ -41,4 +41,7 @@ dependencies {
     //如果你在 Kotlin 编写的类里使用 Glide 注解，你需要引入一个 kapt 依赖，以代替常规的 annotationProcessor 依赖：
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+
+    // leakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 }

@@ -13,7 +13,11 @@ X
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 @
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
-z
-Japp/src/main/java/com/mrcd/optimization/memory/bitmap/BitBitmapActivity.kt,c/7/c738627aa068df59975ac8150cbb3fad81f21ead
 x
 Happ/src/main/java/com/mrcd/optimization/memory/bitmap/utils/FileUtils.kt,7/5/75b80cb2acd20649bf693e52de20aa25937ba3ae
+F
+app/proguard-rules.pro,9/e/9e08934d811afe28fbc77aaa3c0d747b94348db9
+z
+Japp/src/main/java/com/mrcd/optimization/memory/bitmap/BigBitmapActivity.kt,2/4/2437eb81d9e2bd1280aed83cae2d2de922dc29e9
+q
+Aapp/src/main/java/com/mrcd/optimization/memory/MainApplication.kt,b/f/bf4242ea8236adae83774bf91b7c5eba6bcfc926

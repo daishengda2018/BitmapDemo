@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Build
+import android.util.Log
 import androidx.annotation.Keep
 import java.io.ByteArrayOutputStream
 
@@ -88,6 +89,38 @@ object BitmapUtils {
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
         return outputStream.toByteArray()
+    }
+
+    /**
+     * 第一种：质量压缩法
+     * @param image     目标原图
+     * @param maxSize   最大的图片大小
+     * @return          bitmap，注意可以测试以下压缩前后bitmap的大小值
+     */
+    fun compressImage(image: Bitmap, maxSize: Long): ByteArray {
+        val byteCount = image.byteCount
+        Log.i("yc压缩图片", "压缩前大小$byteCount")
+        val baos = ByteArrayOutputStream()
+        // 把ByteArrayInputStream数据生成图片
+        // 质量压缩方法，options的值是0-100，这里100表示原来图片的质量，不压缩，把压缩后的数据存放到baos中
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        var options = 90
+        // 循环判断如果压缩后图片是否大于maxSize,大于继续压缩
+        while (baos.toByteArray().size > maxSize) {
+            // 重置baos即清空baos
+            baos.reset()
+            // 这里压缩options%，把压缩后的数据存放到baos中
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos)
+            // 每次都减少10，当为1的时候停止，options<10的时候，递减1
+            options -= if (options == 1) {
+                break
+            } else if (options <= 10) {
+                1
+            } else {
+                10
+            }
+        }
+        return baos.toByteArray()
     }
 
     fun compressInSampleSize(byteArray: ByteArray, requestWidth: Int, requestHeight: Int): Bitmap {

@@ -6,13 +6,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import com.mrcd.optimization.memory.R
 import com.mrcd.optimization.memory.bitmap.utils.BitmapUtils
 import kotlinx.android.synthetic.main.activity_bitmap.*
 import java.io.ByteArrayOutputStream
 import java.lang.ref.WeakReference
+
 
 /**
  * Bitmap 相关 Demo
@@ -44,14 +44,14 @@ class BitmapActivity : AppCompatActivity() {
                     bitmap: Bitmap, byteArray: ByteArray,
                     options: BitmapFactory.Options
                 ): Bitmap {
-                    val compressByteArray = BitmapUtils.compressQuality(bitmap)
+                    val compressByteArray = BitmapUtils.compressImage(bitmap, 50 * 1024)
                     val compressedBitmap = BitmapFactory.decodeByteArray(
                         compressByteArray, 0,
                         compressByteArray.size, options
                     )
                     // 展示结果
                     showCompressInfo(bitmap, byteArray, compressedBitmap, compressByteArray)
-                    return compressedBitmap;
+                    return compressedBitmap
                 }
             }.compress()
         }
@@ -65,7 +65,12 @@ class BitmapActivity : AppCompatActivity() {
                     val compressedBitmap = BitmapUtils.compressInSampleSize(byteArray, 300, 300)
                     val compressOutputStream = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressOutputStream)
-                    showCompressInfo(bitmap, byteArray, compressedBitmap, compressOutputStream.toByteArray())
+                    showCompressInfo(
+                        bitmap,
+                        byteArray,
+                        compressedBitmap,
+                        compressOutputStream.toByteArray()
+                    )
                     return compressedBitmap;
                 }
             }.compress()
@@ -81,7 +86,12 @@ class BitmapActivity : AppCompatActivity() {
                     val compressOutputStream = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressOutputStream)
                     // 展示结果
-                    showCompressInfo(bitmap, byteArray, compressedBitmap, compressOutputStream.toByteArray())
+                    showCompressInfo(
+                        bitmap,
+                        byteArray,
+                        compressedBitmap,
+                        compressOutputStream.toByteArray()
+                    )
                     return compressedBitmap;
                 }
             }.compress()
@@ -97,7 +107,12 @@ class BitmapActivity : AppCompatActivity() {
                     val compressOutputStream = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressOutputStream)
                     // 展示结果
-                    showCompressInfo(bitmap, byteArray, compressedBitmap, compressOutputStream.toByteArray())
+                    showCompressInfo(
+                        bitmap,
+                        byteArray,
+                        compressedBitmap,
+                        compressOutputStream.toByteArray()
+                    )
                     return compressedBitmap;
                 }
             }.compress()
@@ -158,13 +173,15 @@ class BitmapActivity : AppCompatActivity() {
                 "计算占用内存大小： ${BitmapUtils.calculateMemorySize(rawBitmap)} kb \n" +
                 "bitmap.density : ${rawBitmap.density} \n" +
                 "文件大小: ${rewByteArray.size / 1024} kb \n" +
+                "bitmap size: ${rawBitmap.byteCount / 1024} kb \n" +
                 "\n" +
                 "压缩后图像宽高 ： ${compressedBitmap.width} * ${compressedBitmap.height} \n" +
                 "图片格式： ${compressedBitmap.config.name}\n" +
                 "占用内存大小： ${BitmapUtils.getMemorySize(compressedBitmap)} kb \n" +
                 "计算占用内存大小： ${BitmapUtils.calculateMemorySize(compressedBitmap)} kb \n" +
                 "bitmap.density : ${compressedBitmap.density} \n" +
-                "文件大小: ${compressByteArray.size / 1024} kb "
+                "文件大小: ${compressByteArray.size / 1024} kb \n" +
+                "bitmap size: ${compressedBitmap.byteCount / 1024} kb "
 
         tvInfo.text = bitmapInfo
     }
@@ -184,7 +201,11 @@ class BitmapActivity : AppCompatActivity() {
             }, 3000)
         }
 
-        abstract fun onCompress(bitmap: Bitmap, byteArray: ByteArray, options: BitmapFactory.Options): Bitmap
+        abstract fun onCompress(
+            bitmap: Bitmap,
+            byteArray: ByteArray,
+            options: BitmapFactory.Options
+        ): Bitmap
     }
 
 }
